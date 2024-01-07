@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "full name": "Андрій Гап'юк",
+        "email": "andrewgapyuk@gmail.com",
+        "password": "Gap12345"
+    },
+    {
+        "id": 3,
+        "full name": "Andriy Barha",
+        "email": "barha@ukr.com",
+        "password": "Barha12345"
+    },
+    {
+        "id": 4,
+        "full name": "Tania Baksyuk",
+        "email": "bax@g.com",
+        "password": "Fhoyyt12345"
+    },
+    {
+        "id": 5,
+        "full name": "Maxim Bodun",
+        "email": "bodun@gmail.com",
+        "password": "Bodun12345"
+    }
+]
