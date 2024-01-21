@@ -18,9 +18,8 @@ class NewBankAccount(BankAccount):
             if self.max_count_transactions <= self.max_count:
                 raise ValueError("Exceeding the transaction limit")
             else:
-                self._balance.amount -= amount
+                super().withdraw(amount)
                 self.max_count += 1
-                self.update_account_info_file()
 
         except ValueError as e:
             print(e)
@@ -39,19 +38,7 @@ class NewBankAccount(BankAccount):
                 raise ValueError("Exchange rates are not available")
 
             else:
-                rate_self = BankAccount._BankAccount__exchange_rate[self._balance.currency]
-                rate_target_account = BankAccount._BankAccount__exchange_rate[target_account._balance.currency]
-
-                if rate_self is not None and rate_target_account is not None:
-                    new_amount = (amount * rate_self) / rate_target_account
-                    self._balance.amount -= amount
-                    target_account.deposit(round(new_amount, 2))
-                    self.max_count += 1
-                    self.update_account_info_file()
-                    return f"Fund transfer is successful"
-                else:
-                    raise ValueError("Exchange rates are not available")
-
+                super().transfer_funds(target_account,amount)
         except (KeyError, NameError, ValueError) as e:
             print(e)
             return f"Fund transfer failed: {e}"
@@ -60,14 +47,14 @@ class NewBankAccount(BankAccount):
         self._balance.amount += self._balance.amount * (percent / 100)
         self.update_account_info_file()
 
+if __name__=="__main__":
 
-g = NewBankAccount("Sara", "44444", 1000, "USD", 1000, 2)
-g1 = NewBankAccount("Adam", "44448", 1500, "UAH", 1000, 2)
+    g = NewBankAccount("Sara", "44444", 10000, "UAH", 1000, 2)
+    g1 = NewBankAccount("Adam", "44448", 1500, "USD", 1000, 2)
 
-g.add_percent(10)
-g1.transfer_funds(g, 1000)
-g.withdraw(100)
-g.withdraw(100)
-g.transfer_funds(g1, 100)
-g.display_account_info()
-g1.display_account_info()
+
+    g.transfer_funds(g1, 900)
+    g.transfer_funds(g1, 1500)
+
+    g.display_account_info()
+    g1.display_account_info()

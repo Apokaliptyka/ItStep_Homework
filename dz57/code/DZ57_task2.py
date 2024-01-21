@@ -23,20 +23,20 @@ class Book:
         except KeyError as k:
             print(k)
 
-    # def __getattribute__(self, name):
-    #     print(f"Call __getattribute__ with {name=}")
-    #     if name in ("_attributes","__dict__"):
-    #         return super().__getattribute__(name)
-    #     else:
-    #         raise AttributeError("Error ")
     def __getattribute__(self, name):
-        print(f"Виклик __getattribute__ з атрибутом {name=}")
-        try:
-            if name == "secret":
-                raise AttributeError("Доступ заборонено до атрибуту 'secret'")
+        print(f"Call __getattribute__ with {name=}")
+        if name in ("_attributes","__dict__"):
             return super().__getattribute__(name)
-        except AttributeError as a:
-            return a
+        else:
+            raise AttributeError("Error ")
+    # def __getattribute__(self, name):
+    #     print(f"Виклик __getattribute__ з атрибутом {name=}")
+    #     try:
+    #         if name == "secret":
+    #             raise AttributeError("Доступ заборонено до атрибуту 'secret'")
+    #         return super().__getattribute__(name)
+    #     except AttributeError as a:
+    #         return a
 
 
 print("1----------------------")
@@ -47,7 +47,7 @@ print("3----------------------")
 print(book.__dict__)
 print("4----------------------")
 print("book.year=", book.year)
-print(book.secret)
+# print(book.secret)
 
 # print("book.title=", book.title)
 # print("book.author=", book.author)

@@ -32,3 +32,9 @@ class NewVector(Vector):
                 print(f"Кордината {item} є нульова . ")
             else:
                 print(f"Кордината {item} є додатня. ")
+
+
+
+v=NewVector(10,20,9)
+v[1]=100
+print(v)
