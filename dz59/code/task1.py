@@ -53,10 +53,21 @@ class AccountDescriptor:
                 if result:  # перевірка на правильність формату
                     if value in AccountDescriptor.data_email:  # перевірка на унікальність
                         raise ValueError(f" Такий емейл {value} вже існує!!")
-                    setattr(instance, self.var, value)
-                    AccountDescriptor.data_email.append(value)# збереження email в базу
+                    else:
+                        setattr(instance, self.var, value)
+                        AccountDescriptor.data_email.append(value)# збереження email в базу
                 else:
                     raise ValueError("Неправильний формат емейла")
+
+    def __delete__(self, instance):
+        if self.key==4:
+            AccountDescriptor.data_email.remove(instance._email)
+            delattr(instance,self.var)
+            print("Атрибут видалено!!!")
+        else:
+            delattr(instance, self.var)
+            print("Атрибут видалено!!!")
+
 
 
 class User:
@@ -86,3 +97,8 @@ if __name__ == "__main__":
     print(user4.__dict__)
     print()
     print(AccountDescriptor.data_email)
+    del user1.email
+    print(user1.__dict__)
+    print(AccountDescriptor.data_email)
+    user1.email="ghghghg@hjh.com"
+    print(user1.__dict__)
