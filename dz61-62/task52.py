@@ -29,7 +29,7 @@ class BankAccount:
                 raise ValueError(" Your account number already exists ")
         except ValueError as e:
             print(e)
-        self.update_account_info_file()
+        # self.update_account_info_file()
 
 
     def update_account_info_file(self):
@@ -42,14 +42,14 @@ class BankAccount:
 
     def deposit(self, amount):
         self._balance.amount += amount
-        self.update_account_info_file()
+        # self.update_account_info_file()
 
 
     def withdraw(self, amount):
         try:
             if self._balance.amount >= amount:
                 self._balance.amount -= amount
-                self.update_account_info_file()
+                # self.update_account_info_file()
             else:
                 raise ValueError("There are not enough funds in the account")
         except ValueError as e:
@@ -59,7 +59,7 @@ class BankAccount:
 
     def change_owner_name(self, new_owner_name):
         self.owner_name = new_owner_name
-        self.update_account_info_file()
+        # self.update_account_info_file()
 
     def display_account_info(self):
         print(f"Name:{self.owner_name}; account:{self.__account_number}; balance:{self._balance} ")
@@ -72,7 +72,7 @@ class BankAccount:
                 if self._balance.amount >= amount and another_account._balance.currency == self._balance.currency:
                     self.withdraw(amount)
                     another_account.deposit(amount)
-                    self.update_account_info_file()
+                    # self.update_account_info_file()
                 else:
                     print("There are not enough funds in the account")
         except NameError as n:
@@ -91,7 +91,7 @@ class BankAccount:
         if new_account_number not in [acc.__account_number for acc in BankAccount.accounts] \
                 and BankAccount.check_account_number(new_account_number):
             self.__account_number = new_account_number
-            self.update_account_info_file()
+            # self.update_account_info_file()
         else:
             print("Error: Incorrect account number!")
 
@@ -120,7 +120,7 @@ class BankAccount:
                         new_amount = (amount * rate_self) / rate_target_account
                         self.withdraw(amount)
                         target_account.deposit(round(new_amount, 2))
-                        self.update_account_info_file()
+                        # self.update_account_info_file()
                         return f"Fund transfer is successful"
                     else:
                         raise ValueError("Exchange rates are not available")
