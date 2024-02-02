@@ -17,32 +17,22 @@ class Queue:
         self.comp_task_size=0
 
     def enqueue(self, id, name, priority):
-        new_noda = Node(id, name, priority)
-        current = self.head
-        if not self.head:
-            self.head = self.tail = new_noda
+        new_node = Node(id, name, priority)
+
+        if self.head is None:
+            self.head = self.tail = new_node
+        elif priority < self.head.priority:
+            new_node.next = self.head
+            self.head = new_node
         else:
-            while current:
-
-                if new_noda.priority < self.head.priority:
-                    new_noda.next = self.head
-                    self.head = new_noda
-                    break
-                if current.priority == new_noda.priority:
-                    new_noda.next = current.next
-                    current.next = new_noda
-                    break
-                if current.priority > self.head.priority and new_noda.priority < current.priority:
-                    new_noda.next = self.head.next
-                    self.head.next = new_noda
-                    break
-                if self.tail.priority < new_noda.priority:
-                    self.tail.next = new_noda
-                    self.tail = new_noda
-                    break
+            current = self.head
+            while current.next and current.next.priority <= priority:
                 current = current.next
-        self.__size +=1
+            new_node.next = current.next
+            current.next = new_node
 
+        # self.tail = new_node
+        self.__size += 1
 
     def dequeue(self):
         if self.head is None:
