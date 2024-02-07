@@ -50,7 +50,7 @@ class Circle(Shape):
 
 
 class Pizza:
-    def __init__(self, price: float, shape: IShape):
+    def __init__(self, price: float, shape:Shape):
         self.__price = price
         self.__shape = shape
 
@@ -61,17 +61,19 @@ class Pizza:
         return self.__shape.__class__.__name__
 
     def cut_pizza(self):
-        print("goot pizza")
+        return f"Name:{self.__shape.name},price:{self.__price} UAH, area:{self.__shape.get_area()} sm"
 
 
 if __name__ == "__main__":
 
     square = Square("Margarita", 15)
-    circle = Circle("Margarita", 10)
+    circle = Circle("Italia", 10)
     print("Площа фігури",circle.get_area())
 
     pizza_square = Pizza(150, square)
     pizza_circle = Pizza(120, circle)
+    print(pizza_circle.cut_pizza())
+    print(pizza_square.cut_pizza())
 
     pizza_circle.cut_pizza()
     print("Фігура класу ",pizza_circle.get_shape_class())
