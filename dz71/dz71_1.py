@@ -1,108 +1,69 @@
 from abc import ABC, abstractmethod
 
 
-class Order(ABC):
+class Shape(ABC):
     @abstractmethod
-    def process_order(self):
-        pass
-
-
-class OrderFood(Order):
-    def process_order(self):
-        print("Замовлення на їжу обробляється !")
-
-
-class OrderDrink(Order):
-    def process_order(self):
-        print("Замовлення на напої обробляється !")
-
-
-class Payments(ABC):
-    @abstractmethod
-    def process_payments(self):
-        pass
-
-
-class CashPayments(Payments):
-    def process_payments(self):
-        print("Розрахунок готівкою обробляється ")
-
-
-class CardPayments(Payments):
-    def process_payments(self):
-        print("Розрахунок картою обробляється ")
-
-
-class SalesReport(ABC):
-    @abstractmethod
-    def process_sals_reports(self):
-        pass
-
-
-class JsonSalesReport(SalesReport):
-    def process_sals_reports(self):
-        print("Звіт в форматі JSON обробляється ")
-
-
-class CswSalesreport(SalesReport):
-    def process_sals_reports(self):
-        print("Звіт в форматі CSW обробляється ")
-
-
-class AbstractFactory(ABC):
-    @abstractmethod
-    def create_order(self):
+    def draw(self):
         pass
 
     @abstractmethod
-    def create_payment(self):
+    def fill_color(self):
         pass
 
     @abstractmethod
-    def create_sales_report(self):
+    def erase(self):
         pass
 
 
-class FoodFactory(AbstractFactory):
-    def create_order(self):
-        return OrderFood()
+class Circle(Shape):
 
-    def create_payment(self):
-        return CardPayments()
+    def draw(self):
+        print("Тип фігури : коло ")
 
-    def create_sales_report(self):
-        return JsonSalesReport()
+    def fill_color(self):
+        print(f"Колір заливки червоий ")
 
-
-class DrintFactory(AbstractFactory):
-    def create_order(self):
-        return OrderDrink()
-
-    def create_payment(self):
-        return CashPayments()
-
-    def create_sales_report(self):
-        return CswSalesreport()
+    def erase(self):
+        print("Фігура видалена ")
 
 
-class Client:
+class Rectangle(Shape):
+    def draw(self):
+        print("Тип фігури : прямокутник ")
 
-    def __init__(self, factory: AbstractFactory):
-        self.factory = factory
+    def fill_color(self):
+        print(f"Колір заливки чорний ")
 
-    def place_order(self):
-        order = self.factory.create_order()
-        order.process_order()
+    def erase(self):
+        print("Фігура видалена ")
 
-    def make_payment(self):
-        payment = self.factory.create_payment()
-        payment.process_payments()
 
-    def generate_sales_report(self):
-        sales_report = self.factory.create_sales_report()
-        sales_report.process_sals_reports()
+class Creator(ABC):
 
-client_1=Client(FoodFactory())
-client_1.place_order()
-client_1.make_payment()
-client_1.generate_sales_report()
+    def render(self):
+        shape = self.createProduct()
+        shape.draw()
+        shape.fill_color()
+
+    @abstractmethod
+    def createProduct(self):
+        pass
+
+
+class CreateCircle(Creator):
+    def createProduct(self):
+        return Circle()
+
+
+class CreateRectangle(Creator):
+    def createProduct(self):
+        return Rectangle()
+
+
+def client_code(creator: Creator):
+    return creator.render()
+
+
+c=client_code(CreateCircle())
+r=client_code(CreateRectangle())
+
