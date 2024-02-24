@@ -140,17 +140,18 @@ class NotificationLogFile(NotificationCenter):
 
     def notification(self):
         try:
-            with open("log.json", "r") as file:
-                notification_dict = json.load(file)
+            with open("log.json", "r") as file1:
+                notification_dict = json.load(file1)
         except(FileNotFoundError, json.decoder.JSONDecodeError):
             notification_dict = {}
 
-        key = "Update data"
+        info = "Update data"
         now_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        notification_dict[key] = now_time
+        notification_dict[now_time] = info
 
-        with open("log.json", "w") as file:
-            json.dump(notification_dict, file, indent=4)
+        with open("log.json", "w") as file2:
+            json.dump( notification_dict, file2, indent=4)
+
 
 
 # Абстрактний клас операції над масивом
@@ -233,6 +234,7 @@ class OperationsWithNum(Operations, Avg):
 file = "file.txt"
 
 d = "Learn online real native-level language learning"
+
 # створення з клавіатури
 console_list = ArrayConsole().create_array(d)
 # print(console_list)
@@ -267,7 +269,7 @@ operation.outputting_to_file(consol_display)
 # operation.sort_array(sort_d)
 # operation.outputting_to_file(consol_display)
 operation.outputting_to_file(json_display, "jsonfile.json")
-operation.add_element(12, consol_notification)
+# operation.add_element(12, consol_notification)
 operation.add_element(14, log_notification)
 operation.add_element(15, log_notification)
 operation.outputting_to_file(consol_display)

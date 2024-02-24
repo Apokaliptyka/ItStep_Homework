@@ -21,13 +21,12 @@ class SmsService(MessageService):
 
 class NotificationService:
 
-    def __init__(self, type_message: MessageService, message: str, receiver: str):
+    def __init__(self, type_message: MessageService):
         self.type_message = type_message
-        self.message = message
-        self.receiver = receiver
 
-    def send_notification(self):
-        self.type_message.send(self.message, self.receiver)
+
+    def send_notification(self,message: str, receiver: str):
+        self.type_message.send(message, receiver)
 
 
 text = "Дотримані принципи SOLID"
@@ -35,8 +34,8 @@ text = "Дотримані принципи SOLID"
 email_message = EmailService()
 sms_message = SmsService()
 
-notifi_by_email = NotificationService(email_message, text, "Andrew")
-notifi_by_sms = NotificationService(sms_message, text, "Andrew")
+notifi_by_email = NotificationService(email_message)
+notifi_by_sms = NotificationService(sms_message)
 
-notifi_by_email.send_notification()
-notifi_by_sms.send_notification()
+notifi_by_email.send_notification(text,"Andrew")
+notifi_by_sms.send_notification(text,"Andrew")
