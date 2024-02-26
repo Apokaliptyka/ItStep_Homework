@@ -1,0 +1,17 @@
+{
+    "2024-02-26 21-32-25": [
+        {
+            "name": "France",
+            "count": 2,
+            "summa": 180
+        },
+        {
+            "name": "BigHotDog",
+            "count": 5,
+            "summa": 500
+        },
+        {
+            "summa_all": 476.0
+        }
+    ]
+}
