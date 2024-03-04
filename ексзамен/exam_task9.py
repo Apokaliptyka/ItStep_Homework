@@ -60,8 +60,8 @@ class FileOutput(Output):
 
 
 class Student:
-    def __init__(self, id_people: str, first_name: str, last_name: str):
-        self.id_people = id_people
+    def __init__(self, id_student: str, first_name: str, last_name: str):
+        self.id_people = id_student
         self.first_name = first_name
         self.last_name = last_name
         self.courses = {}
@@ -117,71 +117,73 @@ class Grades:
 
 
 class School:
-    students = []
-    courses = []
 
-    @classmethod
-    def add_student(cls,student:Student) -> None:
+
+    def __init__(self):
+        self.students=[]
+        self.courses=[]
+
+
+    def add_student(self, student:Student) -> None:
         """Додає студента до школи."""
-        cls.students.append(student)
+        self.students.append(student)
 
-    @classmethod
-    def del_student(cls,student:Student) -> None:
+
+    def del_student(self,student:Student) -> None:
         """Видаляє студента зі школи."""
-        cls.students.remove(student)
-        for course in cls.courses:
+        self.students.remove(student)
+        for course in self.courses:
             if student in course.students:
                 course.remove_student(student)
 
-    @classmethod
-    def add_course(cls,course: Course) -> None:
+
+    def add_course(self,course: Course) -> None:
         """Додає курс до школи."""
-        cls.courses.append(course)
+        self.courses.append(course)
 
-    @classmethod
-    def remove_course(cls,course: Course) -> None:
+
+    def remove_course(self,course: Course) -> None:
         """Видаляє курс зі школи."""
-        for student in cls.students:
+        for student in self.students:
             student.remove_course(course)
-        cls.courses.remove(course)
+        self.courses.remove(course)
 
-    @classmethod
-    def register_to_course(cls,student: Student, course: Course) -> None:
+
+    def register_to_course(self,student: Student, course: Course) -> None:
         """Реєструє студента на курсі."""
-        if student in cls.students and course in School.courses:
+        if student in self.students and course in self.courses:
             course.add_student(student)
             student.add_course(course)
         else:
             print("Студент або курс не знайдені.")
 
-    @classmethod
-    def withdraw_from_course(cls,student: Student, course: Course) -> None:
+    def withdraw_from_course(self,student: Student, course: Course) -> None:
         """Виводить студента з курсу."""
-        if student in cls.students and course in School.courses:
+        if student in self.students and course in self.courses:
             course.remove_student(student)
             student.remove_course(course)
             print(f"Студент {student.first_name} {student.last_name} виведений з курсу {course.name}")
         else:
             print("Студент або курс не знайдені.")
 
-    @classmethod
-    def student_info(cls,student_id: str, method: Output) -> None:
+
+    def student_info(self,student_id: str, method: Output) -> None:
         """Виводить інформацію про студента за допомогою вказаного методу."""
-        student = cls.find_student_by_id(student_id)
+        student = self.find_student_by_id(student_id)
         if student:
             student.output_information(method)
 
-    @classmethod
-    def course_info(cls,course_name: str) -> Union[Course, None]:
+
+    def course_info(self,course_name: str) -> Union[Course, None]:
         """Повертає інформацію про курс або None, якщо курс не знайдено."""
-        for course in cls.courses:
+        for course in self.courses:
             if course.name == course_name:
                 return course
         print(f"Такого курсу немає: {course_name}")
         return None
 
-    @classmethod
-    def find_student_by_name(cls,name: str) -> Union[Dict[str, str], None]:
+
+    def find_student_by_name(self,name: str) -> Union[Dict[str, str], None]:
         """Знаходить інформацію про студента за ім'ям або прізвищем.
 
         Параметри:
@@ -191,7 +193,7 @@ class School:
         Union[Dict[str, str], None]: Інформація про студента у форматі словника,
         що містить його ім'я, прізвище та ідентифікатор, або None, якщо студент не знайдений.
         """
-        for student in cls.students:
+        for student in self.students:
             if student.first_name.lower() == name.lower() or student.last_name.lower() == name.lower():
                 return {
                     "Ідентифікатор студента": student.id_people,
@@ -201,19 +203,18 @@ class School:
         print(f"Студента з ім'ям або прізвищем '{name}' не знайдено.")
         return None
 
-    @classmethod
-    def find_student_by_id(cls,student_id: str) -> Union[Student, None]:
+    def find_student_by_id(self,student_id: str) -> Union[Student, None]:
         """Знаходить студента за ідентифікатором."""
-        for student in cls.students:
+        for student in self.students:
             if student.id_people == student_id:
                 return student
         print(f"Немає студента з ідентифікатором: {student_id}")
         return None
 
-    @classmethod
-    def display_students_on_course(cls,course_name: str, method: ConsoleOutput) -> None:
+
+    def display_students_on_course(self,course_name: str, method: ConsoleOutput) -> None:
         """Виводить інформацію про студентів, які зареєстровані на вказаному курсі."""
-        course = cls.course_info(course_name)
+        course = self.course_info(course_name)
         if course:
             print(f"Студенти, записані на {course_name}:")
             for student in course.students:
@@ -221,10 +222,10 @@ class School:
         else:
             print(f"Такого курсу немає: {course_name}")
 
-    @classmethod
-    def display_courses_for_student(cls,student_id: str) -> None:
+
+    def display_courses_for_student(self,student_id: str) -> None:
         """Виводить перелік курсів, на які записаний студент."""
-        student = cls.find_student_by_id(student_id)
+        student = self.find_student_by_id(student_id)
         if student:
             print(f"Курси, на які записаний студент {student_id}:")
             for course_name in student.courses:
@@ -232,10 +233,10 @@ class School:
         else:
             print(f"Немає студента з ідентифікатором: {student_id}")
 
-    @classmethod
-    def update_grade(cls,student_id: str, course_name: str, new_grade: int, index: int) -> None:
+
+    def update_grade(self,student_id: str, course_name: str, new_grade: int, index: int) -> None:
         """Оновлює оцінку студента за вказаним курсом і індексом оцінки."""
-        student = cls.find_student_by_id(student_id)
+        student = self.find_student_by_id(student_id)
         if student:
             if course_name in student.courses:
                 student.courses[course_name].update_grade(index, new_grade)
@@ -245,10 +246,10 @@ class School:
         else:
             print(f"Немає студента з ідентифікатором: {student_id}")
 
-    @classmethod
-    def add_grade(cls,student_id: str, course_name: str, grade: int) -> None:
+
+    def add_grade(self,student_id: str, course_name: str, grade: int) -> None:
         """Додає оцінку студенту за вказаним курсом."""
-        student = cls.find_student_by_id(student_id)
+        student = self.find_student_by_id(student_id)
         if student:
             if course_name in student.courses:
                 student.courses[course_name].add_grade(grade)
@@ -311,7 +312,8 @@ school.student_info("1111",console_output)
 school.del_student(student1)
 school.student_info("1111",console_output)
 school.display_students_on_course(course_math.name,console_output)
-
+school1=School()
+school1.display_students_on_course(course_geogr.name,console_output)
 # school.student_info("1111",file_output)
 
 # print(school.find_student_by_name("Andrew"))
